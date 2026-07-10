@@ -1,6 +1,6 @@
 'use client';
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
-import { SITE, whatsappLink, enquiryMessage } from '@/lib/site';
+import { SITE, enquiryMessage } from '@/lib/site';
 
 const EnquiryContext = createContext(null);
 
@@ -41,16 +41,6 @@ export function EnquiryProvider({ children }) {
     }
   }
 
-  function openWhatsApp() {
-    const lines = [
-      enquiryMessage(carName),
-      form.name && `Name: ${form.name}`,
-      form.phone && `Phone: ${form.phone}`,
-      form.email && `Email: ${form.email}`,
-    ].filter(Boolean).join('\n');
-    window.open(whatsappLink(lines), '_blank', 'noopener');
-  }
-
   return (
     <EnquiryContext.Provider value={value}>
       {children}
@@ -79,24 +69,21 @@ export function EnquiryProvider({ children }) {
                   value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
                 <input className="form-control" type="email" placeholder="Email" required
                   value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
-                <input className="form-control" placeholder="Phone / WhatsApp"
+                <input className="form-control" placeholder="Phone"
                   value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
                 <textarea className="form-control" rows="3" placeholder="Message"
                   value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} />
 
                 {status === 'error' && (
-                  <p className="da-modal-note da-modal-err">Something went wrong sending your email. Please try WhatsApp below.</p>
+                  <p className="da-modal-note da-modal-err">Something went wrong sending your email. Please call us on {SITE.phone}.</p>
                 )}
                 {status === 'unconfigured' && (
-                  <p className="da-modal-note da-modal-err">Email isn&apos;t set up yet — please reach us on WhatsApp below.</p>
+                  <p className="da-modal-note da-modal-err">Email isn&apos;t set up yet — please call us on {SITE.phone}.</p>
                 )}
 
                 <div className="da-modal-actions">
                   <button type="submit" className="btn btn-primary py-2 px-4 flex-fill" disabled={status === 'sending'}>
                     {status === 'sending' ? 'Sending…' : 'Send by email'}
-                  </button>
-                  <button type="button" className="btn da-wa flex-fill" onClick={openWhatsApp}>
-                    <span aria-hidden="true">💬</span> WhatsApp
                   </button>
                 </div>
                 <p className="da-modal-note">Prefer to talk? Call {SITE.phone}</p>
@@ -127,11 +114,6 @@ export function EnquiryProvider({ children }) {
             .da-modal-form { display: flex; flex-direction: column; gap: 12px; }
             .da-modal-form .form-control { font-size: 15px; }
             .da-modal-actions { display: flex; gap: 10px; margin-top: 4px; }
-            .da-wa {
-              background: #25d366; color: #fff; border: 0; font-weight: 600;
-              display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-            }
-            .da-wa:hover { background: #1eb257; color: #fff; }
             .da-modal-note { font-size: 12.5px; color: #999; margin: 6px 0 0; text-align: center; }
             .da-modal-err { color: #e23744; }
             .da-modal-done { text-align: center; padding: 10px 0; }

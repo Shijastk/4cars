@@ -10,7 +10,7 @@ const testimonials = [
   { img: 'person_1.jpg', text: 'Picked up at DXB the moment I landed. Two-minute enquiry, spotless car, clear all-in price. The smoothest rental I have had in Dubai.', name: 'Sarah Mitchell', pos: 'Frequent Traveller' },
   { img: 'person_2.jpg', text: 'I rent every week for work between Dubai and Abu Dhabi. Pick-up is always quick and hassle-free — clear prices, no surprises.', name: 'Omar Al Farsi', pos: 'Business Owner' },
   { img: 'person_3.jpg', text: 'Needed an SUV last minute for a desert shoot and had one within the hour. The team was friendly and genuinely helpful.', name: 'Elena Rossi', pos: 'Photographer' },
-  { img: 'person_1.jpg', text: 'Great value and helpful support. When my plans changed they adjusted my dates with zero fuss over WhatsApp.', name: 'David Kim', pos: 'Freelancer' },
+  { img: 'person_1.jpg', text: 'Great value and helpful support. When my plans changed they adjusted my dates with zero fuss.', name: 'David Kim', pos: 'Freelancer' },
   { img: 'person_2.jpg', text: 'I arrange cars for events across the UAE all the time and this has become my go-to. Reliable vehicles, fair rates.', name: 'Aisha Bello', pos: 'Event Planner' },
 ];
 

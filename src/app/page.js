@@ -5,6 +5,7 @@ import HowItWorks from '@/components/sections/HowItWorks';
 import TestimonialSlider from '@/components/sections/TestimonialSlider';
 import CtaSection from '@/components/sections/CtaSection';
 import SectionHeading from '@/components/ui/SectionHeading';
+import RevealRow from '@/components/ui/RevealRow';
 import Button from '@/components/ui/Button';
 import Loader from '@/components/ui/Loader';
 import { CARS } from '@/lib/cars';
@@ -45,9 +46,9 @@ export default function Home() {
               text="Find the perfect car for your trip — whether it's city cruising, family adventures, or luxury travel."
             />
           </div>
-          <div className="row">
+          <RevealRow>
             {categories.map(c => <CategoryCard key={c.title} {...c} />)}
-          </div>
+          </RevealRow>
         </div>
       </section>
 
@@ -57,9 +58,9 @@ export default function Home() {
           <div className="row justify-content-center">
             <SectionHeading sub="Our Fleet" title="Choose Your Car" />
           </div>
-          <div className="row">
+          <RevealRow>
             {featured.map(c => <CarCard key={c.id} car={c} />)}
-          </div>
+          </RevealRow>
           <div className="row justify-content-center mt-4">
             <Button href="/fleet" className="py-3 px-5">View the full fleet</Button>
           </div>

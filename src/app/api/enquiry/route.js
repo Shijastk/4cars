@@ -7,7 +7,7 @@
 //   WEB3FORMS_ACCESS_KEY=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 //
 // Until it's configured the endpoint responds with `email_not_configured`, and
-// the UI falls back to the always-available WhatsApp channel.
+// the UI asks the visitor to call the business phone instead.
 
 export async function POST(request) {
   const data = await request.json().catch(() => null);

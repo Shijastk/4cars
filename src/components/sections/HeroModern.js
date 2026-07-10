@@ -29,6 +29,18 @@ export default function HeroModern() {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
     let ticking = false;
 
+    // Always land on the hero when the home page mounts — e.g. returning from
+    // another route, where the browser restores the old scroll position and
+    // would otherwise drop the visitor mid-page (behind the panel, hero hidden).
+    // Reset the native scroll AND Lenis, then run again on the next frame so we
+    // beat the browser's scroll restoration.
+    const toTop = () => {
+      window.scrollTo(0, 0);
+      if (window.__lenis) window.__lenis.scrollTo(0, { immediate: true, force: true });
+    };
+    toTop();
+    const restoreId = requestAnimationFrame(toTop);
+
     const reset = () => {
       if (bg) bg.style.transform = '';
       if (scrim) scrim.style.opacity = '';
@@ -74,6 +86,7 @@ export default function HeroModern() {
     window.addEventListener('resize', apply);
     desktop.addEventListener('change', apply);
     return () => {
+      cancelAnimationFrame(restoreId);
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', apply);
       desktop.removeEventListener('change', apply);
@@ -83,7 +96,7 @@ export default function HeroModern() {
   return (
     <div className="hero-sticky">
       <section className="hero-modern">
-        <div className="hero-modern__bg" ref={bgRef} style={{ backgroundImage: "url('/images/bg_1.jpg')" }}></div>
+        <div className="hero-modern__bg" ref={bgRef} style={{ backgroundImage: "url('/images/herobg.png')" }}></div>
         <div className="hero-modern__scrim" ref={scrimRef}></div>
         <div className="container hero-modern__inner" ref={innerRef}>
           <h1 className="hero-modern__title">Find The Perfect Car<br />For Every Journey</h1>

@@ -6,7 +6,7 @@
 // the fleet, pre-filtered to the vehicles that suit that kind of trip.
 export default function CategoryCard({ title, image, href, desc }) {
   return (
-    <div className="col-sm-6 col-lg-3 d-flex align-self-stretch ftco-animate mb-4">
+    <div className="col-sm-6 col-lg-3 d-flex align-self-stretch mb-4">
       <a
         href={href}
         className="category-card w-100"

@@ -1,7 +1,6 @@
 // Central company configuration for DriveAway (Dubai, UAE).
 //
 // ⚠️  UPDATE THESE PLACEHOLDER DETAILS with the real business contacts.
-//     `whatsapp` must be digits only — no "+", spaces or dashes.
 export const SITE = {
   brand: 'DriveAway',
   brandTail: 'Away',           // the part rendered in the accent colour
@@ -10,7 +9,6 @@ export const SITE = {
 
   phone: '+971 4 123 4567',
   phoneHref: 'tel:+97141234567',
-  whatsapp: '971501234567',    // digits only, international format, no leading +
   email: 'hello@driveaway.ae',
   address: 'Sheikh Zayed Road, Business Bay, Dubai, United Arab Emirates',
   city: 'Dubai',
@@ -27,12 +25,6 @@ export const SITE = {
 // How many completed years of operation (kept as a live figure, min 10+).
 export function yearsOfExperience(currentYear = 2026) {
   return Math.max(10, currentYear - SITE.established);
-}
-
-// Build a WhatsApp "click to chat" deep link with a pre-filled message.
-export function whatsappLink(message = '') {
-  const base = `https://wa.me/${SITE.whatsapp}`;
-  return message ? `${base}?text=${encodeURIComponent(message)}` : base;
 }
 
 // A ready-made enquiry message for a specific vehicle (or a general one).

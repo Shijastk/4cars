@@ -1,9 +1,9 @@
 'use client';
 import { useState } from 'react';
-import { SITE, whatsappLink } from '@/lib/site';
+import { SITE } from '@/lib/site';
 
 // Full-page contact form. Sends straight to the business inbox via /api/enquiry
-// (no mail-client redirect) with a guaranteed WhatsApp fallback.
+// (no mail-client redirect), with the business phone as a fallback.
 export default function ContactForm() {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
   const [status, setStatus] = useState('idle'); // idle | sending | sent | error | unconfigured
@@ -35,16 +35,6 @@ export default function ContactForm() {
     }
   }
 
-  function openWhatsApp() {
-    const text = [
-      `Hi ${SITE.brand},`,
-      form.subject && `Re: ${form.subject}`,
-      form.message,
-      form.name && `— ${form.name}`,
-    ].filter(Boolean).join('\n');
-    window.open(whatsappLink(text), '_blank', 'noopener');
-  }
-
   if (status === 'sent') {
     return (
       <div className="bg-light p-5 text-center">
@@ -70,15 +60,12 @@ export default function ContactForm() {
         <textarea cols="30" rows="7" className="form-control" placeholder="Message" required value={form.message} onChange={set('message')}></textarea>
       </div>
 
-      {status === 'error' && <p style={{ color: '#e23744' }}>Couldn&apos;t send your message — please try WhatsApp below.</p>}
-      {status === 'unconfigured' && <p style={{ color: '#e23744' }}>Email isn&apos;t configured yet — please reach us on WhatsApp below.</p>}
+      {status === 'error' && <p style={{ color: '#e23744' }}>Couldn&apos;t send your message — please call us on {SITE.phone}.</p>}
+      {status === 'unconfigured' && <p style={{ color: '#e23744' }}>Email isn&apos;t configured yet — please call us on {SITE.phone}.</p>}
 
       <div className="form-group d-flex flex-wrap" style={{ gap: 10 }}>
         <button type="submit" className="btn btn-primary py-3 px-5" disabled={status === 'sending'}>
           {status === 'sending' ? 'Sending…' : 'Send Message'}
-        </button>
-        <button type="button" className="btn py-3 px-5" style={{ background: '#25d366', color: '#fff' }} onClick={openWhatsApp}>
-          💬 WhatsApp Us
         </button>
       </div>
     </form>

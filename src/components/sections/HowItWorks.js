@@ -3,7 +3,7 @@ import SectionHeading from '../ui/SectionHeading';
 
 const steps = [
   { icon: 'flaticon-rent', title: 'Choose A Car', text: 'Browse the fleet and compare models, specs and prices in your local currency.' },
-  { icon: 'flaticon-online-booking', title: 'Send An Enquiry', text: 'Message us on WhatsApp or email with your dates — no accounts, no paperwork.' },
+  { icon: 'flaticon-online-booking', title: 'Send An Enquiry', text: 'Email or call us with your dates — no accounts, no paperwork.' },
   { icon: 'flaticon-select', title: 'We Confirm', text: 'We check availability and send your all-in rate, usually within the hour.' },
   { icon: 'flaticon-review', title: 'Enjoy The Ride', text: "Pick up in Dubai, Abu Dhabi or Sharjah and hit the road — we've handled the rest." },
 ];

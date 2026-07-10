@@ -27,6 +27,11 @@ export default function SmoothScroll() {
       touchMultiplier: 1.6,
     });
 
+    // Expose the instance so per-page code (e.g. the home hero) can snap the
+    // scroll back to the top — resetting the window alone isn't enough because
+    // Lenis would restore its own remembered position on the next frame.
+    window.__lenis = lenis;
+
     let rafId;
     const raf = (time) => {
       lenis.raf(time);
@@ -37,6 +42,7 @@ export default function SmoothScroll() {
     return () => {
       cancelAnimationFrame(rafId);
       lenis.destroy();
+      if (window.__lenis === lenis) delete window.__lenis;
     };
   }, []);
 

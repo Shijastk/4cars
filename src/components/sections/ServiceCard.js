@@ -18,7 +18,7 @@ export default function ServiceCard({ icon, title, text, dark = false }) {
         <Card className="services services-2 text-center w-100">
           <Card.Body className="py-md-4">
             {inner}
-            <p>{text}</p>
+            <p className="text-white">{text}</p>
           </Card.Body>
         </Card>
       </div>

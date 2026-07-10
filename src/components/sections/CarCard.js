@@ -7,7 +7,7 @@ import EnquireButton from './EnquireButton';
 //
 // Only data that already lives on the car (name, type, seats, doors,
 // transmission, fuel, priceUsd) is shown; nothing is invented. The single arrow
-// replaces the old Enquire/WhatsApp pair and opens the shared enquiry modal.
+// opens the shared enquiry modal.
 export default function CarCard({ car }) {
   const { img, name, type, seats, doors, transmission, fuel, priceUsd } = car;
 

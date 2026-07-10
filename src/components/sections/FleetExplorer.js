@@ -38,7 +38,7 @@ export default function FleetExplorer() {
   return (
     <>
       {/* Filter bar */}
-      <div className="search-wrap-1 ftco-animate mb-5">
+      {/* <div className="search-wrap-1 ftco-animate mb-5">
         <form className="search-property-1" onSubmit={(e) => e.preventDefault()}>
           <div className="row align-items-end">
             <div className="col-lg">
@@ -93,7 +93,7 @@ export default function FleetExplorer() {
             </div>
           </div>
         </form>
-      </div>
+      </div> */}
 
       {/* Result count */}
       <div className="d-flex align-items-center justify-content-between mb-4 flex-wrap">
