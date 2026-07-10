@@ -1,0 +1,981 @@
+/*
+ * Tailwind is imported WITHOUT Preflight so it can't reset/alter the existing
+ * Bootstrap-based template design. This keeps the original look pixel-exact
+ * while making Tailwind's theme + utility classes available for new work and
+ * for migrating sections over one at a time.
+ *
+ * (Full `@import "tailwindcss"` would also pull in preflight.css, whose global
+ * reset would change the template's headings, lists, forms, etc.)
+ */
+@layer theme, base, components, utilities;
+
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+/* Brand palette from the original template (style.css --ac tokens) */
+@theme {
+  --color-brand: #e23744;
+  --color-brand-dark: #c92d3a;
+  --color-brand-light: #f27d86;
+}
+
+/* =========================================================================
+ * Layout — widen the template's 1140px `.container` for a roomier page.
+ * `body .container` (0,1,1) outranks the vendored `.container` (0,1,0) so
+ * this wins regardless of stylesheet load order.
+ * ========================================================================= */
+@media (min-width: 1200px) {
+  body .container {
+    max-width: 1320px;
+  }
+}
+@media (min-width: 1600px) {
+  body .container {
+    max-width: 1480px;
+  }
+}
+
+/* =========================================================================
+ * Modern hero — full-bleed background with a bottom-left headline, subtitle
+ * and two pill CTAs (each with a circular arrow badge). Replaces the old
+ * `.hero-wrap` two-column layout. The template navbar is `position:absolute`
+ * over the hero on desktop, so the inner block carries top padding to clear
+ * it and bottom padding to seat the content near the base of the frame.
+ * ========================================================================= */
+.hero-modern {
+  position: relative;
+  /* Float the hero as a rounded card inset a hair from the viewport edges. */
+  width: auto;
+  margin: 10px;
+  min-height: calc(100vh - 20px);
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  border-radius: 24px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
+  background: #0a0d14; /* fallback behind the parallax image layer */
+}
+
+/* Parallax background image layer — oversized vertically so the upward drift
+ * never exposes an edge; clipped to the rounded card by .hero-modern's
+ * overflow:hidden. The dark gradient lives on THIS layer (over the image), so
+ * it drifts together with the photo instead of sitting on the whole section. */
+.hero-modern__bg {
+  position: absolute;
+  inset: -16% 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  will-change: transform;
+}
+.hero-modern__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.82) 0%,
+    rgba(0, 0, 0, 0.45) 42%,
+    rgba(0, 0, 0, 0.12) 100%
+  );
+}
+
+/* Progressive dark scrim — opacity ramps 0 → ~0.6 as the page scrolls (driven
+ * from HeroModern.js), so the hero deepens as the sheet rises over it. */
+.hero-modern__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: #05070d;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hero-modern__inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding-top: 170px;
+  padding-bottom: 90px;
+}
+
+.hero-modern__title {
+  font-family: 'Poppins', Arial, sans-serif;
+  color: #fff;
+  font-weight: 600;
+  font-size: 64px;
+  line-height: 1.08;
+  letter-spacing: -0.5px;
+  margin: 0 0 28px;
+}
+
+/* Bottom row: description on the left, CTAs on the right ----------------- */
+.hero-modern__row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 28px;
+}
+
+.hero-modern__subtitle {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 18px;
+  line-height: 1.65;
+  max-width: 460px;
+  margin: 0;
+}
+
+.hero-modern__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* Pill CTA -------------------------------------------------------------- */
+.hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding: 2px 2px 2px 26px;
+  border-radius: 100px;
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.2s ease, color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.hero-pill:hover,
+.hero-pill:focus {
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+
+/* Active — filled with the brand colour */
+.hero-pill--active {
+  background: var(--color-brand);
+  border: 1px solid var(--color-brand);
+  color: #fff;
+}
+.hero-pill--active:hover,
+.hero-pill--active:focus {
+  background: var(--color-brand-dark);
+  border-color: var(--color-brand-dark);
+  color: #fff;
+}
+
+/* Transparent — outline only */
+.hero-pill--ghost {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  color: #fff;
+}
+.hero-pill--ghost:hover,
+.hero-pill--ghost:focus {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #fff;
+  color: #fff;
+}
+
+.hero-pill__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fff;
+  color: #111;
+  flex: 0 0 auto;
+  transition: color 0.2s ease;
+}
+.hero-pill--active .hero-pill__icon {
+  color: var(--color-brand);
+}
+.hero-pill--active:hover .hero-pill__icon,
+.hero-pill--active:focus .hero-pill__icon {
+  color: var(--color-brand-dark);
+}
+
+/* Responsive ------------------------------------------------------------ */
+@media (max-width: 991.98px) {
+  .hero-modern {
+    margin: 12px;
+    min-height: calc(90vh - 24px);
+    border-radius: 22px;
+  }
+  .hero-modern__inner {
+    padding-top: 70px;
+    padding-bottom: 64px;
+  }
+  .hero-modern__title {
+    font-size: 44px;
+  }
+  .hero-modern__row {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .hero-modern {
+    margin: 10px;
+    border-radius: 18px;
+  }
+  .hero-modern__title {
+    font-size: 32px;
+  }
+  .hero-modern__subtitle {
+    font-size: 15px;
+  }
+  .hero-modern__row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .hero-modern__actions {
+    width: 100%;
+  }
+  .hero-pill {
+    flex: 1;
+    justify-content: space-between;
+  }
+}
+
+/* =========================================================================
+ * Section heading — optional lead paragraph under the H2 (used by the
+ * "Explore Our Car Categories" gateway to echo the reference's subtitle).
+ * ========================================================================= */
+.heading-section__text {
+  max-width: 560px;
+  margin: 12px auto 0;
+  color: #6b7280;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+/* =========================================================================
+ * Explore Our Car Categories — imagery-first "gateway" cards. Each is a
+ * rounded, full-bleed photo with a bottom gradient, an overlaid category
+ * title and a circular arrow badge, reusing the hero's rounded-card +
+ * circular-arrow visual language.
+ * ========================================================================= */
+.category-card {
+  position: relative;
+  display: block;
+  height: 420px;
+  border-radius: 22px;
+  overflow: hidden;
+  text-decoration: none;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.14);
+}
+
+/* No lift on hover — the card stays put; only the icon recolours and the
+   description reveals (see below). */
+.category-card:hover,
+.category-card:focus {
+  text-decoration: none;
+}
+
+.category-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.78) 0%,
+    rgba(0, 0, 0, 0.32) 46%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  transition: background 0.3s ease;
+}
+.category-card:hover .category-card__overlay,
+.category-card:focus .category-card__overlay {
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.82) 0%,
+    rgba(0, 0, 0, 0.42) 52%,
+    rgba(0, 0, 0, 0.08) 100%
+  );
+}
+
+.category-card__body {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 22px 22px 24px;
+}
+
+.category-card__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.category-card__title {
+  color: #fff;
+  font-family: 'Poppins', Arial, sans-serif;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 1.2;
+  margin: 0;
+}
+
+/* Description — hidden by default, revealed only on hover/focus. Height can't
+   animate to `auto`, so we ease a generous max-height alongside opacity. */
+.category-card__desc {
+  display: block;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  line-height: 1.5;
+  max-height: 0;
+  margin-top: 0;
+  opacity: 0;
+  overflow: hidden;
+  transform: translateY(6px);
+  transition: max-height 0.35s ease, opacity 0.3s ease,
+    transform 0.35s ease, margin-top 0.35s ease;
+}
+.category-card:hover .category-card__desc,
+.category-card:focus .category-card__desc,
+.category-card:focus-within .category-card__desc {
+  max-height: 140px;
+  margin-top: 8px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.category-card__icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--color-brand);
+  transition: background 0.25s ease, color 0.25s ease;
+}
+/* Hover — only the icon changes colour (badge fills brand, arrow turns white). */
+.category-card:hover .category-card__icon,
+.category-card:focus .category-card__icon {
+  background: var(--color-brand);
+  color: #fff;
+}
+
+@media (max-width: 575.98px) {
+  .category-card {
+    height: 340px;
+  }
+}
+
+/* =========================================================================
+ * Choose Your Car — modern fleet card. A rounded white card with a full-bleed
+ * photo, a title + category pill, a monochrome icon row of the car's specs and
+ * a price + circular-arrow footer. Reuses the hero / category-card visual
+ * language (rounded corners, ↗ badge) for the "Choose Your Car" and fleet
+ * grids. Layout: 1 card per row on phones, 2 on tablets, 3 on desktop.
+ * ========================================================================= */
+.car-card {
+  display: flex;
+  flex-direction: column;
+  background: #fff;              /* white card */
+  border: 1px solid rgba(17, 24, 39, 0.06);
+  border-radius: 0;             /* sharp, square edges — no rounding */
+  padding: 0;                   /* image goes full-bleed to the card edges */
+  overflow: hidden;
+  box-shadow: 0 10px 26px rgba(17, 24, 39, 0.05);
+}
+/* No hover state — the card does not lift, zoom or change shadow. */
+
+/* Media — car floats, centered, on a flat light-grey panel. `contain` + padding
+   keeps transparent PNG cut-outs whole (no cropping) with breathing room, like
+   the reference. */
+.car-card__media {
+  position: relative;
+  border-radius: 0;
+  overflow: hidden;
+  background: #F2F2F2;
+  aspect-ratio: 16 / 10;
+  padding: 16px;
+}
+.car-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+/* Older engines without aspect-ratio still get a sensible image height. */
+@supports not (aspect-ratio: 1) {
+  .car-card__media { min-height: 200px; }
+}
+
+.car-card__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  padding: 18px 16px 16px;
+}
+
+/* Title + category pill row */
+.car-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.car-card__title {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 1.2;
+  color: #1f2430;
+  margin: 0;
+}
+.car-card__pill {
+  flex: 0 0 auto;
+  padding: 6px 16px;
+  border: 1px solid rgba(17, 24, 39, 0.14);
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+  color: #4b5563;
+  white-space: nowrap;
+}
+
+/* Icon spec row — seats · doors · transmission · fuel, hairline-divided. */
+.car-card__specs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 0;
+}
+.car-card__spec {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+  white-space: nowrap;
+}
+.car-card__spec:first-child {
+  padding-left: 0;
+}
+.car-card__spec + .car-card__spec {
+  border-left: 1px solid rgba(17, 24, 39, 0.1);
+}
+.car-card__spec svg {
+  color: #9aa1ac;
+  flex: 0 0 auto;
+}
+
+/* Price + arrow footer, pinned to the bottom, split by a hairline. */
+.car-card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid rgba(17, 24, 39, 0.08);
+}
+.car-card__price {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin: 0;
+  min-width: 0;
+}
+.car-card__price-value {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1.1;
+  color: #1f2430;
+}
+.car-card__price-label {
+  font-size: 13px;
+  font-weight: 400;
+  color: #9aa1ac;
+}
+
+/* Circular ↗ badge — outlined brand arrow that fills on hover/focus, echoing
+   the category-card badge. */
+.car-card__arrow {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid rgba(226, 55, 68, 0.35);
+  color: var(--color-brand);
+  background: #fff;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+.car-card__arrow:hover,
+.car-card__arrow:focus-visible {
+  background: var(--color-brand);
+  border-color: var(--color-brand);
+  color: #fff;
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+/* =========================================================================
+ * Call to action — a vibrant purple card that closes the home page. A subtle
+ * grid overlay adds depth; headline, copy and two pill buttons sit on the left,
+ * with a luxury car image bleeding past the card's edge on the right. Reuses
+ * the hero/category rounded-card + Poppins visual language.
+ *
+ * Two-column only ≥1200px, where the template's `.container` widens to 1320px
+ * and there is room for the copy and the car side by side; below that it stacks
+ * (car under the text) so the text never runs beneath the image.
+ * ========================================================================= */
+.cta-section {
+  overflow-x: clip; /* belt-and-braces: the car's slight bleed never adds page scroll */
+}
+
+.cta-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 380px;
+  padding: 64px 70px;
+  border-radius: 28px;
+  overflow: visible; /* let the car overlap the card's edge */
+  background: linear-gradient(120deg, #7c3aed 0%, #9333ea 55%, #a855f7 100%);
+  box-shadow: 0 26px 60px rgba(124, 58, 237, 0.35);
+}
+
+/* Subtle grid pattern — clipped to the rounded card and radially faded so it
+   reads as texture, not a spreadsheet. */
+.cta-card__grid {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 46px 46px;
+  -webkit-mask-image: radial-gradient(130% 130% at 18% 25%, #000 0%, rgba(0, 0, 0, 0.4) 68%, transparent 100%);
+  mask-image: radial-gradient(130% 130% at 18% 25%, #000 0%, rgba(0, 0, 0, 0.4) 68%, transparent 100%);
+}
+
+.cta-card__content {
+  position: relative;
+  z-index: 2;
+  max-width: 520px;
+}
+
+.cta-card__title {
+  font-family: 'Poppins', Arial, sans-serif;
+  color: #fff;
+  font-weight: 700;
+  font-size: 52px;
+  line-height: 1.08;
+  letter-spacing: -0.5px;
+  margin: 0 0 18px;
+}
+
+.cta-card__text {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 18px;
+  line-height: 1.6;
+  max-width: 440px;
+  margin: 0 0 32px;
+}
+
+.cta-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* Pill buttons with a forward arrow that nudges right on hover. */
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 28px;
+  border-radius: 100px;
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease,
+    transform 0.2s ease;
+}
+.cta-btn:hover,
+.cta-btn:focus {
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+.cta-btn__arrow {
+  transition: transform 0.2s ease;
+}
+.cta-btn:hover .cta-btn__arrow,
+.cta-btn:focus .cta-btn__arrow {
+  transform: translateX(4px);
+}
+
+.cta-btn--solid {
+  background: #fff;
+  color: #6d28d9;
+}
+.cta-btn--solid:hover,
+.cta-btn--solid:focus {
+  background: #f3ecff;
+  color: #6d28d9;
+}
+
+.cta-btn--ghost {
+  background: transparent;
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  color: #fff;
+}
+.cta-btn--ghost:hover,
+.cta-btn--ghost:focus {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: #fff;
+  color: #fff;
+}
+
+/* Car cut-out — anchored bottom-right, overlapping the card's edge. It's a
+   transparent PNG, so no frame: just a soft shadow that hugs the silhouette. */
+.cta-card__media {
+  position: absolute;
+  z-index: 3;
+  right: -34px;
+  bottom: -12px;
+  width: 52%;
+  max-width: 640px;
+  pointer-events: none;
+}
+.cta-card__car {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 26px 34px rgba(0, 0, 0, 0.32));
+}
+
+/* Tablet & below — stack the car under the text, everything centered. */
+@media (max-width: 1199.98px) {
+  .cta-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 52px 40px 0;
+  }
+  .cta-card__content {
+    max-width: 640px;
+  }
+  .cta-card__text {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .cta-card__actions {
+    justify-content: center;
+  }
+  .cta-card__media {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: 82%;
+    max-width: 460px;
+    margin: 30px auto -18px;
+  }
+}
+
+/* Phone — tighter spacing, smaller headline, full-width stacked buttons. */
+@media (max-width: 575.98px) {
+  .cta-card {
+    padding: 40px 24px 0;
+    border-radius: 22px;
+  }
+  .cta-card__title {
+    font-size: 34px;
+  }
+  .cta-card__text {
+    font-size: 15px;
+  }
+  .cta-card__actions {
+    flex-direction: column;
+  }
+  .cta-btn {
+    justify-content: center;
+    width: 100%;
+  }
+  .cta-card__media {
+    width: 92%;
+    margin-bottom: -12px;
+  }
+}
+
+/* =========================================================================
+ * Scroll reveal — the hero background stays pinned to the top of the viewport
+ * (`position: sticky`) while everything below rides up over it as one opaque
+ * "sheet". Works together with:
+ *   • HeroModern.js   — lifts + fades the hero content on scroll
+ *   • SmoothScroll.js — Lenis inertia for the whole page
+ * The pinned hero sits on a lower layer (z-index 1); the sheet is opaque and
+ * sits above it (z-index 2); the navbar (z-index 3) stays on top of both.
+ * ========================================================================= */
+.hero-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  height: 100vh;          /* exactly one viewport, so the sheet starts right after */
+  display: flow-root;     /* keep the hero card's margin inside the pin */
+}
+
+/* Compositor hint — the inner block is transformed/faded every frame from JS. */
+.hero-modern__inner {
+  will-change: transform, opacity;
+}
+
+/* The opaque sheet that scrolls up and covers the pinned hero. */
+.page-panel {
+  position: relative;
+  z-index: 2;
+  background: #fff;
+  border-top-left-radius: 28px;
+  border-top-right-radius: 28px;
+  box-shadow: 0 -28px 60px rgba(0, 0, 0, 0.18);
+  display: flow-root;     /* contain child margins so the rounded top sits flush */
+}
+
+/* The footer follows `.page-panel` as a sibling, but by default it is a
+ * NON-positioned element — so it paints below the pinned hero (a positioned
+ * element with z-index 1) and the hero background bleeds over it, hiding the
+ * footer. Lift it onto the same opaque-sheet layer as `.page-panel` so it sits
+ * above the hero. Harmless on pages without the sticky hero (nothing overlaps). */
+.ftco-footer {
+  position: relative;
+  z-index: 2;
+  /* Contain any horizontal overflow (wide widget columns on narrow screens)
+   * inside the footer instead of letting it push the page body sideways —
+   * the footer scrolls horizontally on its own when its content is too wide. */
+  overflow-x: auto;
+}
+
+/* Below the reveal breakpoint the hero just scrolls normally — no pin, no sheet
+ * radius. That is the better feel (and cheaper) on phones. */
+@media (max-width: 991.98px) {
+  .hero-sticky {
+    position: static;
+    height: auto;
+  }
+  .hero-modern__inner {
+    will-change: auto;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  .page-panel {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    box-shadow: none;
+  }
+}
+
+/* Honour reduced-motion: drop the pin-and-fade and render a plain page. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-sticky {
+    position: static;
+    height: auto;
+  }
+  .hero-modern__inner {
+    transform: none !important;
+    opacity: 1 !important;
+    will-change: auto;
+  }
+  .page-panel {
+    box-shadow: none;
+  }
+}
+
+/* =========================================================================
+ * Testimonials — "What Our Customers Say". A single-row carousel that auto-
+ * advances a *page at a time* (three cards, then the next three, …) on a timer,
+ * driven by TestimonialSlider.js. Replaces the old owl-carousel slider
+ * (.testimony-*). The viewport is a native horizontal scroller (so it stays
+ * swipeable); the component pages it by scrolling to each group's first card
+ * with smooth behaviour. Cards size to show 3 per view on desktop, 2 on tablet
+ * and 1 on phones — CSS owns the widths, JS just reads them to page.
+ *
+ * Each card reads top-to-bottom: a small muted role marker, the review quote
+ * (which grows so every footer sits flush), then a circular avatar and name.
+ * ========================================================================= */
+.reviews-section {
+  background: #f6f7f9;
+}
+
+.reviews-viewport {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  /* Timer-driven; hide the scrollbar but keep the element scrollable. */
+  scrollbar-width: none;
+  /* Top/bottom room for the card shadow + hover lift. */
+  padding: 8px 2px 14px;
+}
+.reviews-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.review-card {
+  scroll-snap-align: start;
+  /* 3 per view (desktop). `100%` is the viewport's visible width, so three
+   * cards + two 24px gaps fill it exactly; JS pages in groups of three. */
+  flex: 0 0 calc((100% - 2 * 24px) / 3);
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid #eef0f4;
+  border-radius: 18px;
+  padding: 26px 26px 28px;
+  box-shadow: 0 10px 30px rgba(17, 24, 39, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.review-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 42px rgba(17, 24, 39, 0.1);
+}
+
+/* Pagination dots — one per page (group), driven + highlighted by JS. */
+.reviews-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 26px;
+}
+.reviews-dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: none;
+  border-radius: 100px;
+  background: #cfd4de;
+  cursor: pointer;
+  transition: width 0.25s ease, background 0.25s ease;
+}
+.reviews-dot:hover {
+  background: #aab0bd;
+}
+.reviews-dot--active {
+  width: 24px;
+  background: var(--color-brand);
+}
+
+/* Top — small muted role marker (icon + label) */
+.review-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 18px;
+  color: #8a91a3;
+  font-size: 13px;
+  font-weight: 500;
+}
+.review-card__meta svg {
+  flex: 0 0 auto;
+  width: 15px;
+  height: 15px;
+}
+
+/* Middle — the review quote; grows to push the footer to the card's base */
+.review-card__quote {
+  flex: 1 1 auto;
+  margin: 0 0 22px;
+  color: #4b5563;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* Bottom — circular avatar + name */
+.review-card__person {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.review-card__avatar {
+  flex: 0 0 auto;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.review-card__name {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.2;
+  color: #1f2430;
+}
+
+/* Tablet — 2 cards per view (JS pages in groups of two). */
+@media (max-width: 991.98px) {
+  .review-card {
+    flex-basis: calc((100% - 24px) / 2);
+  }
+}
+
+/* Phone — 1 card per view (JS pages one at a time). */
+@media (max-width: 575.98px) {
+  .review-card {
+    flex-basis: 100%;
+  }
+}
+
+/* Reduced-motion — JS suppresses the timer and jumps without smooth-scroll;
+ * this also disables the CSS smooth-scroll so any manual paging is instant. */
+@media (prefers-reduced-motion: reduce) {
+  .reviews-viewport {
+    scroll-behavior: auto;
+  }
+}
+
+/* =========================================================================
+ * Lenis smooth scroll — recommended base styles (from the Lenis docs).
+ * `html.lenis` is added by Lenis when smoothing is active.
+ * ========================================================================= */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
