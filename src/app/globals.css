@@ -1044,6 +1044,100 @@ html.lenis body {
 }
 
 /* =========================================================================
+ * Page loader — determinate progress bar (replaces the old #ftco-loader SVG
+ * spinner). Progress is real: it tracks the vendor scripts as they land, fed
+ * from `@/lib/loadProgress` by ScriptLoader.
+ *
+ * Intentionally scoped to `.page-loader`, NOT `#ftco-loader` — that id is
+ * styled by the vendored style.css and torn down by main.js. Owning our own
+ * element keeps visibility a pure function of React state.
+ * ========================================================================= */
+.page-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0d0f12;
+  /* The track is sized in vw; clip any overflow a scrollbar would introduce. */
+  overflow: hidden;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.35s ease-out, visibility 0s linear 0.35s;
+}
+
+/* Set on the same render that completes the bar; React unmounts after the fade. */
+.page-loader--complete {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.page-loader__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.page-loader__brand {
+  font-family: 'Poppins', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #fff;
+}
+
+.page-loader__brand .brand__mark {
+  width: 40px;
+  height: 37px;
+}
+
+/* Full-bleed on phones, half the viewport on desktop. */
+.page-loader__track {
+  position: relative;
+  width: 100vw;
+  height: 4px;
+  /* Unfilled track: a lift off the dark backdrop, not a bright line. */
+  background-color: rgba(255, 255, 255, 0.14);
+  overflow: hidden;
+}
+
+.page-loader__bar {
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-brand);
+  /* Driven by inline `transform: scaleX(<0..1>)` — compositor-only, so the bar
+   * fills without triggering layout on every tick. */
+  transform-origin: left center;
+  transition: transform 0.25s ease-out;
+  will-change: transform;
+}
+
+.page-loader__pct {
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+@media (min-width: 768px) {
+  .page-loader__track {
+    width: 50vw;
+    border-radius: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-loader,
+  .page-loader__bar {
+    transition: none !important;
+  }
+}
+
+/* =========================================================================
  * Brand lockup (mark + wordmark) — see components/ui/Brand.js
  *
  * The logo is black-and-red artwork, so a single file cannot survive every
