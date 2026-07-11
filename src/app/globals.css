@@ -174,6 +174,9 @@
   font-size: 16px;
   font-weight: 500;
   line-height: 1;
+  /* The label is two short words — never let it break across lines inside the
+   * pill (it did on phones, where the two pills split the row 50/50). */
+  white-space: nowrap;
   text-decoration: none;
   transition: background 0.2s ease, transform 0.2s ease, color 0.2s ease,
     border-color 0.2s ease;
@@ -232,11 +235,20 @@
 }
 
 /* Responsive ------------------------------------------------------------ */
+/* Below the desktop breakpoint the hero is NOT a floating card: it runs edge to
+ * edge, square-cornered and flush under the (in-flow, black) mobile navbar. The
+ * inset-card treatment reads as a stray panel on a phone-width screen. */
 @media (max-width: 991.98px) {
   .hero-modern {
-    margin: 12px;
-    min-height: calc(90vh - 24px);
-    border-radius: 22px;
+    width: 100%;
+    margin: 0;
+    /* svh = the *small* viewport height, so the hero doesn't overflow while the
+     * mobile browser's URL bar is still expanded. The navbar sits in flow above
+     * it on this breakpoint, hence the subtraction rather than a bare 100svh. */
+    min-height: calc(90vh - 60px);
+    min-height: calc(90svh - 60px);
+    border-radius: 0;
+    box-shadow: none;
   }
   .hero-modern__inner {
     padding-top: 70px;
@@ -251,10 +263,6 @@
 }
 
 @media (max-width: 575.98px) {
-  .hero-modern {
-    margin: 10px;
-    border-radius: 18px;
-  }
   .hero-modern__title {
     font-size: 32px;
   }
@@ -268,9 +276,20 @@
   .hero-modern__actions {
     width: 100%;
   }
+  /* Two pills share the row and grow to fill it, but the 140px basis means that
+   * on a very narrow phone (≤320px) they wrap and each takes a full-width row
+   * instead of squeezing the label. Padding/icon shrink so "View Cars" still
+   * sits on one line at the 50/50 width. */
   .hero-pill {
-    flex: 1;
+    flex: 1 1 140px;
     justify-content: space-between;
+    gap: 10px;
+    padding-left: 18px;
+    font-size: 15px;
+  }
+  .hero-pill__icon {
+    width: 36px;
+    height: 36px;
   }
 }
 
@@ -1060,6 +1079,8 @@ html.lenis body {
   align-items: center;
   justify-content: center;
   background-color: #0d0f12;
+  /* Breathing room so the progress bar never touches the screen edges. */
+  padding: 0 24px;
   /* The track is sized in vw; clip any overflow a scrollbar would introduce. */
   overflow: hidden;
   opacity: 1;
@@ -1079,6 +1100,8 @@ html.lenis body {
   flex-direction: column;
   align-items: center;
   gap: 18px;
+  /* Fills the padded area, so a `width: 100%` track stops at the padding. */
+  width: 100%;
 }
 
 .page-loader__brand {
@@ -1094,11 +1117,12 @@ html.lenis body {
   height: 37px;
 }
 
-/* Full-bleed on phones, half the viewport on desktop. */
+/* Spans the padded width on phones, half the viewport on desktop. */
 .page-loader__track {
   position: relative;
-  width: 100vw;
+  width: 100%;
   height: 4px;
+  border-radius: 2px;
   /* Unfilled track: a lift off the dark backdrop, not a bright line. */
   background-color: rgba(255, 255, 255, 0.14);
   overflow: hidden;
@@ -1126,7 +1150,6 @@ html.lenis body {
 @media (min-width: 768px) {
   .page-loader__track {
     width: 50vw;
-    border-radius: 2px;
   }
 }
 
@@ -1191,6 +1214,24 @@ html.lenis body {
  * has, so it holds up against a bright sky. None on the flat white bar. */
 .ftco-navbar-light:not(.scrolled) .brand__mark {
   filter: drop-shadow(0 1px 6px rgba(0, 0, 0, 0.45));
+}
+
+/* Phones/tablets: the lockup is set from `.navbar-brand`'s 20px uppercase 800
+ * weight, which is sized for the roomy desktop bar and dominates the narrow
+ * black mobile one. Scale the whole lockup down — wordmark and mark together,
+ * so the proportions hold. */
+@media (max-width: 991.98px) {
+  .ftco-navbar-light .navbar-brand {
+    font-size: 16px;
+  }
+  .ftco-navbar-light .navbar-brand .brand {
+    gap: 8px;
+  }
+  .ftco-navbar-light .navbar-brand .brand__mark {
+    /* Same 1331 × 1223 artwork ratio as the base rule. */
+    width: 28px;
+    height: 26px;
+  }
 }
 
 /* The template paints EVERY span inside .navbar-brand red
