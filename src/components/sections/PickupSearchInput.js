@@ -113,7 +113,7 @@ export default function PickupSearchInput() {
         .da-pick-branch-text small { color: #888; font-size: 12px; }
         .da-pick-tag {
           font-size: 10px; text-transform: uppercase; letter-spacing: .05em;
-          background: #e23744; color: #fff; padding: 2px 6px; border-radius: 4px;
+          background: #ee0b0d; color: #fff; padding: 2px 6px; border-radius: 4px;
           font-weight: 600; margin-top: 2px; flex: 0 0 auto;
         }
       `}</style>

@@ -115,7 +115,7 @@ export function EnquiryProvider({ children }) {
             .da-modal-form .form-control { font-size: 15px; }
             .da-modal-actions { display: flex; gap: 10px; margin-top: 4px; }
             .da-modal-note { font-size: 12.5px; color: #999; margin: 6px 0 0; text-align: center; }
-            .da-modal-err { color: #e23744; }
+            .da-modal-err { color: #c40809; }
             .da-modal-done { text-align: center; padding: 10px 0; }
             .da-modal-tick {
               width: 56px; height: 56px; border-radius: 50%; background: #e8f7ee; color: #25a35a;

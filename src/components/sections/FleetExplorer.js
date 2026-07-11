@@ -147,9 +147,9 @@ export default function FleetExplorer() {
           font-size: 14px; width: 40px; height: 40px; line-height: 38px; color: #2f2f2f;
           padding: 0;
         }
-        .block-27 ul li button:hover { background: var(--color-brand, #e23744); color: #fff; border-color: var(--color-brand, #e23744); }
+        .block-27 ul li button:hover { background: var(--color-brand, #ee0b0d); color: #fff; border-color: var(--color-brand, #ee0b0d); }
         .block-27 ul li.active span {
-          background: var(--color-brand, #e23744); color: #fff; border-color: var(--color-brand, #e23744);
+          background: var(--color-brand, #ee0b0d); color: #fff; border-color: var(--color-brand, #ee0b0d);
         }
         .block-27 ul li.disabled button { opacity: .4; cursor: not-allowed; }
         .block-27 ul li.disabled button:hover { background: #fff; color: #2f2f2f; border-color: rgba(0,0,0,.1); }

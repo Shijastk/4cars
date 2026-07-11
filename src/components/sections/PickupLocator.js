@@ -4,7 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import { PICKUP_LOCATIONS } from '@/lib/pickupLocations';
 import { searchPlaces } from '@/lib/geosearch';
 
-const ACCENT = '#e23744';   // brand colour — DriveAway branches
+const ACCENT = '#ee0b0d';   // brand red, sampled from the logo — RegelDrive branches
 const PICKED = '#1a73e8';   // searched / chosen location
 
 function pinSvg(color) {

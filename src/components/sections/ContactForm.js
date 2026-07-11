@@ -60,8 +60,8 @@ export default function ContactForm() {
         <textarea cols="30" rows="7" className="form-control" placeholder="Message" required value={form.message} onChange={set('message')}></textarea>
       </div>
 
-      {status === 'error' && <p style={{ color: '#e23744' }}>Couldn&apos;t send your message — please call us on {SITE.phone}.</p>}
-      {status === 'unconfigured' && <p style={{ color: '#e23744' }}>Email isn&apos;t configured yet — please call us on {SITE.phone}.</p>}
+      {status === 'error' && <p style={{ color: '#c40809' }}>Couldn&apos;t send your message — please call us on {SITE.phone}.</p>}
+      {status === 'unconfigured' && <p style={{ color: '#c40809' }}>Email isn&apos;t configured yet — please call us on {SITE.phone}.</p>}
 
       <div className="form-group d-flex flex-wrap" style={{ gap: 10 }}>
         <button type="submit" className="btn btn-primary py-3 px-5" disabled={status === 'sending'}>

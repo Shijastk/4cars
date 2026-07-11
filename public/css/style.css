@@ -36,9 +36,10 @@
 
 /* ---- Brand accent: single control point. Change these 3 values to re-skin the whole site ---- */
 :root {
-  --ac: #e23744;        /* primary brand colour (was var(--ac) orange) */
-  --ac-dark: #c92d3a;   /* hover / active state (was var(--ac-dark)) */
-  --ac-light: #f27d86;  /* light tint (was var(--ac-light)) */
+  --ac: #ee0b0d;        /* primary brand colour — sampled from the Royel Drive logo */
+  --ac-dark: #c40809;   /* hover / active state, and the accent as TEXT on white
+                           (6.2:1 on #fff — --ac itself only reaches 4.5:1) */
+  --ac-light: #ff5a5c;  /* light tint */
 }
 
 *,

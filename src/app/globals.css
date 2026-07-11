@@ -12,11 +12,12 @@
 @import 'tailwindcss/theme.css' layer(theme);
 @import 'tailwindcss/utilities.css' layer(utilities);
 
-/* Brand palette from the original template (style.css --ac tokens) */
+/* Brand palette — the reds are sampled from the logo (style.css --ac tokens
+ * carry the same values for the vendored template CSS). */
 @theme {
-  --color-brand: #e23744;
-  --color-brand-dark: #c92d3a;
-  --color-brand-light: #f27d86;
+  --color-brand: #ee0b0d;
+  --color-brand-dark: #c40809;
+  --color-brand-light: #ff5a5c;
 }
 
 /* =========================================================================
@@ -589,7 +590,7 @@
   padding: 64px 70px;
   border-radius: 28px;
   overflow: visible; /* let the car overlap the card's edge */
-  background: linear-gradient(120deg, #c92d3a 0%, #e23744 55%, #f27d86 100%);
+  background: linear-gradient(120deg, #c40809 0%, #ee0b0d 55%, #ff5a5c 100%);
   box-shadow: 0 26px 60px rgba(226, 55, 68, 0.35);
 }
 

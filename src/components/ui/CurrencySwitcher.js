@@ -98,7 +98,7 @@ export default function CurrencySwitcher() {
         .da-currency-code { font-weight: 700; color: #111; width: 42px; flex: 0 0 auto; }
         .da-currency-name { flex: 1 1 auto; color: #666; font-size: 13px; }
         .da-currency-sym { color: #999; font-weight: 600; }
-        .da-currency-opt.is-active .da-currency-sym { color: #e23744; }
+        .da-currency-opt.is-active .da-currency-sym { color: #c40809; }
 
         @media (max-width: 991px) {
           .da-currency { margin: 8px 0; }
