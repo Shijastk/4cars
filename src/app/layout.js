@@ -16,6 +16,16 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+
+        {/* ScriptLoader can only start fetching after React hydrates. These hints let
+          * the browser pull the first (dependency-gating) wave during HTML parse
+          * instead, so jQuery/Popper/AOS are warm by the time the effect runs. */}
+        <link rel="preload" as="script" href="/js/jquery.min.js" />
+        <link rel="preload" as="script" href="/js/popper.min.js" />
+        <link rel="preload" as="script" href="/js/aos.js" />
+
         <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="/css/open-iconic-bootstrap.min.css" />
         <link rel="stylesheet" href="/css/animate.css" />
