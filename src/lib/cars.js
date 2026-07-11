@@ -1,4 +1,4 @@
-// Single source of truth for the DriveAway fleet.
+// Single source of truth for the RegelDrive fleet.
 //
 // Prices are stored ONCE, in USD, as the base currency. Every price shown in
 // the UI is converted to the visitor's local currency at display time

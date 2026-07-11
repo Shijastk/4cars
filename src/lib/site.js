@@ -1,16 +1,18 @@
-// Central company configuration for DriveAway (Dubai, UAE).
+// Central company configuration for RegelDrive (Dubai, UAE).
 //
 // ⚠️  UPDATE THESE PLACEHOLDER DETAILS with the real business contacts.
 export const SITE = {
-  brand: 'DriveAway',
-  brandTail: 'Away',           // the part rendered in the accent colour
+  brand: 'RegelDrive',
+  brandTail: 'Drive',          // the part rendered in the accent colour
+  domain: 'regeldrive.com',
+  tld: '.com',                 // shown as a muted suffix on the wordmark
   tagline: 'Premium Car Rental in Dubai & across the UAE',
   established: 2014,           // "10+ years on the road" is derived from this
 
-  phone: '+971 4 123 4567',
-  phoneHref: 'tel:+97141234567',
-  email: 'hello@driveaway.ae',
-  address: 'Sheikh Zayed Road, Business Bay, Dubai, United Arab Emirates',
+  phone: '055 198 1194',
+  phoneHref: 'tel:+971551981194',
+  email: 'hello@regeldrive.com',
+  address: 'Street No. 13B, Dubai, United Arab Emirates',
   city: 'Dubai',
   country: 'United Arab Emirates',
   hours: 'Open 24 / 7, every day of the year',
@@ -21,6 +23,11 @@ export const SITE = {
     twitter: 'https://twitter.com',
   },
 };
+
+// The wordmark splits into a plain head and an accent-coloured tail
+// ("Regel" + "Drive"). Derived once here so the navbar, footer and loader
+// can't drift apart.
+export const BRAND_HEAD = SITE.brand.slice(0, SITE.brand.length - SITE.brandTail.length);
 
 // How many completed years of operation (kept as a live figure, min 10+).
 export function yearsOfExperience(currentYear = 2026) {

@@ -1,4 +1,4 @@
-// Predefined DriveAway pick-up branches across the UAE.
+// Predefined RegelDrive pick-up branches across the UAE.
 // Coordinates are [lat, lng]. Free to display on OpenStreetMap — no API key needed.
 export const PICKUP_LOCATIONS = [
   { id: 'dxb-hq',   name: 'Dubai Business Bay HQ',        type: 'Head office', address: 'Sheikh Zayed Road, Business Bay, Dubai',   lat: 25.1857, lng: 55.2769 },

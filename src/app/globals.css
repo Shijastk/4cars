@@ -1041,3 +1041,93 @@ html.lenis body {
     transition: none !important;
   }
 }
+
+/* =========================================================================
+ * Brand lockup (mark + wordmark) — see components/ui/Brand.js
+ *
+ * The logo is black-and-red artwork, so a single file cannot survive every
+ * surface it lands on. The navbar alone has three backdrops:
+ *
+ *   not .scrolled, desktop  → transparent, over the dark hero  → white ink
+ *   not .scrolled, ≤991px   → solid #000 bar                   → white ink
+ *   .scrolled, any width    → solid #fff bar                   → black ink
+ *
+ * So both inks are stacked in the same box and cross-faded on `.scrolled`
+ * (the class main.js already toggles). Opacity-only, so it composites on the
+ * GPU and neither image is ever fetched mid-scroll.
+ * ========================================================================= */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  line-height: 1;
+}
+
+.brand__mark {
+  position: relative;
+  display: block;
+  flex: none;
+  /* Artwork is 1331 × 1223 — keep the box on that ratio so nothing squashes. */
+  width: 36px;
+  height: 33px;
+}
+
+.brand__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: opacity 0.25s ease;
+}
+
+/* White ink is the default; the black ink only wins on the white scrolled bar. */
+.brand__img--on-light {
+  opacity: 0;
+}
+.ftco-navbar-light.scrolled .brand__img--on-dark {
+  opacity: 0;
+}
+.ftco-navbar-light.scrolled .brand__img--on-light {
+  opacity: 1;
+}
+
+/* Over the hero photo the mark gets the same soft lift the nav text already
+ * has, so it holds up against a bright sky. None on the flat white bar. */
+.ftco-navbar-light:not(.scrolled) .brand__mark {
+  filter: drop-shadow(0 1px 6px rgba(0, 0, 0, 0.45));
+}
+
+/* The template paints EVERY span inside .navbar-brand red
+ * (`.ftco-navbar-light .navbar-brand span { color: var(--ac) }`) and the lockup
+ * is built from nested spans — so that rule hits the .brand wrapper too, and a
+ * bare `color: inherit` on the word would just inherit the red back down. The
+ * colour has to be reclaimed at EVERY level of the lockup; only then can the
+ * tail be handed the red on purpose. */
+.ftco-navbar-light .navbar-brand .brand,
+.ftco-navbar-light .navbar-brand .brand__mark,
+.ftco-navbar-light .navbar-brand .brand__word {
+  color: inherit;
+}
+.ftco-navbar-light .navbar-brand .brand__word-tail,
+.brand__word-tail {
+  color: var(--color-brand);
+}
+
+/* The .com reads as a quiet suffix, not part of the name. */
+.ftco-navbar-light .navbar-brand .brand__word-tld,
+.brand__word-tld {
+  color: currentColor;
+  opacity: 0.55;
+  font-weight: 500;
+}
+
+/* Footer: the lockup replaces the old "About <brand>" heading, so drop the
+ * heading's own type scale and let .brand__word carry it. */
+.footer-brand {
+  display: block;
+  margin-bottom: 20px;
+  font-size: 22px;
+  line-height: 1;
+  color: #fff;
+}

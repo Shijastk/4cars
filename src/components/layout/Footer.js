@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Brand from '@/components/ui/Brand';
 import { SITE } from '@/lib/site';
 
 export default function Footer() {
@@ -8,7 +9,7 @@ export default function Footer() {
         <div className="row mb-5">
           <div className="col-md">
             <div className="ftco-footer-widget mb-4">
-              <h2 className="ftco-heading-2">About {SITE.brand}</h2>
+              <h2 className="ftco-heading-2 footer-brand"><Brand tone="light" /></h2>
               <p>{SITE.brand} makes car rental in Dubai and across the UAE simple, transparent and affordable. 10+ years on the road — send an enquiry and drive away.</p>
               <ul className="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
                 <li className="ftco-animate"><a href={SITE.social.twitter} target="_blank" rel="noopener noreferrer"><span className="icon-twitter"></span></a></li>

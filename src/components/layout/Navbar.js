@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import CurrencySwitcher from '@/components/ui/CurrencySwitcher';
+import Brand from '@/components/ui/Brand';
+import { SITE } from '@/lib/site';
 
 const links = [
   { href: '/', label: 'Home' },
@@ -24,7 +26,9 @@ export default function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
       <div className="container">
-        <Link className="navbar-brand" href="/">Drive<span>Away</span></Link>
+        <Link className="navbar-brand" href="/" aria-label={`${SITE.brand} — home`}>
+          <Brand />
+        </Link>
         <button className="navbar-toggler" type="button"
           onClick={() => setOpen((v) => !v)}
           aria-controls="ftco-nav" aria-expanded={open} aria-label="Toggle navigation">

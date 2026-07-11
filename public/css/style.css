@@ -9952,7 +9952,7 @@ textarea.form-control {
 }
 
 /* =====================================================================
-   DriveAway refinements — keep the template's feel, fix the nav
+   RegelDrive refinements — keep the template's feel, fix the nav
    contrast, restyle the cards, and add light hover polish everywhere.
    ===================================================================== */
 
@@ -10088,7 +10088,7 @@ textarea.form-control {
   border-color: var(--ac);
   color: #fff; }
 
-/* --- Service blocks (Why DriveAway + How it works): flat, no hover motion --- */
+/* --- Service blocks (Why RegelDrive + How it works): flat, no hover motion --- */
 .services-section .services .icon span,
 .services-section .services .heading { display: inline-block; }
 
