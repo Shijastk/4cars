@@ -34,7 +34,7 @@ export function EnquiryProvider({ children }) {
       });
       const data = await res.json().catch(() => ({}));
       if (res.ok && data.ok) setStatus('sent');
-      else if (data.error === 'email_not_configured') setStatus('unconfigured');
+      else if (data.error === 'not_activated') setStatus('unconfigured');
       else setStatus('error');
     } catch {
       setStatus('error');
@@ -78,7 +78,7 @@ export function EnquiryProvider({ children }) {
                   <p className="da-modal-note da-modal-err">Something went wrong sending your email. Please call us on {SITE.phone}.</p>
                 )}
                 {status === 'unconfigured' && (
-                  <p className="da-modal-note da-modal-err">Email isn&apos;t set up yet — please call us on {SITE.phone}.</p>
+                  <p className="da-modal-note da-modal-err">We can&apos;t take enquiries by email right now — please call us on {SITE.phone}.</p>
                 )}
 
                 <div className="da-modal-actions">

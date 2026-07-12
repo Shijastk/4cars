@@ -28,7 +28,7 @@ export default function ContactForm() {
       });
       const data = await res.json().catch(() => ({}));
       if (res.ok && data.ok) setStatus('sent');
-      else if (data.error === 'email_not_configured') setStatus('unconfigured');
+      else if (data.error === 'not_activated') setStatus('unconfigured');
       else setStatus('error');
     } catch {
       setStatus('error');
@@ -61,7 +61,7 @@ export default function ContactForm() {
       </div>
 
       {status === 'error' && <p style={{ color: '#c40809' }}>Couldn&apos;t send your message — please call us on {SITE.phone}.</p>}
-      {status === 'unconfigured' && <p style={{ color: '#c40809' }}>Email isn&apos;t configured yet — please call us on {SITE.phone}.</p>}
+      {status === 'unconfigured' && <p style={{ color: '#c40809' }}>We can&apos;t take enquiries by email right now — please call us on {SITE.phone}.</p>}
 
       <div className="form-group d-flex flex-wrap" style={{ gap: 10 }}>
         <button type="submit" className="btn btn-primary py-3 px-5" disabled={status === 'sending'}>

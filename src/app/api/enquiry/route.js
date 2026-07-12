@@ -1,13 +1,18 @@
 // Enquiry endpoint. Delivers car enquiries straight to the business inbox — no
 // mail-client redirect for the visitor.
 //
-// Transport: Web3Forms (https://web3forms.com) — free, no server to run. Set the
-// access key in an env var and enquiries land in the inbox tied to that key:
+// Transport: FormSubmit (https://formsubmit.co) — no API key, no account, no
+// server to run. We POST to the AJAX endpoint for SITE.email and the enquiry
+// lands in that inbox.
 //
-//   WEB3FORMS_ACCESS_KEY=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-//
-// Until it's configured the endpoint responds with `email_not_configured`, and
-// the UI asks the visitor to call the business phone instead.
+// ⚠️  ONE-TIME ACTIVATION: the very first submission makes FormSubmit send a
+// confirmation link to SITE.email. Nothing is delivered until someone opens that
+// email and clicks the link. Until then this endpoint answers `not_activated`
+// and the UI asks the visitor to call the business phone instead.
+
+import { SITE } from '@/lib/site';
+
+const ENDPOINT = `https://formsubmit.co/ajax/${encodeURIComponent(SITE.email)}`;
 
 export async function POST(request) {
   const data = await request.json().catch(() => null);
@@ -16,20 +21,22 @@ export async function POST(request) {
     return Response.json({ ok: false, error: 'missing_fields' }, { status: 400 });
   }
 
-  const accessKey = process.env.WEB3FORMS_ACCESS_KEY;
-  if (!accessKey) {
-    return Response.json({ ok: false, error: 'email_not_configured' }, { status: 200 });
-  }
-
   try {
-    const res = await fetch('https://api.web3forms.com/submit', {
+    const res = await fetch(ENDPOINT, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        // Without a Referer, FormSubmit assumes the form is a local HTML file and
+        // rejects the submission outright. A server-side fetch sends none, so we
+        // supply the canonical site URL ourselves.
+        Referer: `https://${SITE.domain}/`,
+      },
       body: JSON.stringify({
-        access_key: accessKey,
-        subject: `New car enquiry: ${data.car || 'General'}`,
-        from_name: data.name || 'Website visitor',
-        name: data.name || '',
+        _subject: `New car enquiry: ${data.car || 'General'}`,
+        _template: 'table',
+        _captcha: 'false',
+        name: data.name || 'Website visitor',
         email: data.email,
         phone: data.phone || '',
         car: data.car || '',
@@ -37,8 +44,20 @@ export async function POST(request) {
       }),
     });
     const out = await res.json().catch(() => ({}));
-    const ok = res.ok && out.success !== false;
-    return Response.json({ ok, error: ok ? undefined : 'delivery_failed' }, { status: ok ? 200 : 502 });
+
+    // FormSubmit reports success as the *string* "true", not a boolean.
+    if (res.ok && String(out.success) === 'true') {
+      return Response.json({ ok: true });
+    }
+
+    // Before the confirmation link is clicked FormSubmit replies with a message
+    // about activating the form. Flag that separately so the UI can fall back to
+    // the phone number rather than blaming the visitor's input.
+    const pending = /activat|confirm/i.test(out.message || '');
+    return Response.json(
+      { ok: false, error: pending ? 'not_activated' : 'delivery_failed' },
+      { status: pending ? 200 : 502 },
+    );
   } catch {
     return Response.json({ ok: false, error: 'delivery_failed' }, { status: 502 });
   }

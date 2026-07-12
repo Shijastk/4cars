@@ -11,7 +11,7 @@ export const SITE = {
 
   phone: '0544019068',
   phoneHref: 'tel:+971551981194',
-  email: 'hello@regeldrive.com',
+  email: 'info@regeldrive.com',
   address: 'Street No. 13B, Dubai, United Arab Emirates',
   city: 'Dubai',
   country: 'United Arab Emirates',
