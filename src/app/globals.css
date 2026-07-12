@@ -273,23 +273,26 @@
     flex-direction: column;
     align-items: stretch;
   }
+  /* On a phone each pill gets its own full-width row — side-by-side squeezed the
+   * labels and left the CTAs looking like an afterthought. */
   .hero-modern__actions {
     width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
   }
-  /* Two pills share the row and grow to fill it, but the 140px basis means that
-   * on a very narrow phone (≤320px) they wrap and each takes a full-width row
-   * instead of squeezing the label. Padding/icon shrink so "View Cars" still
-   * sits on one line at the 50/50 width. */
   .hero-pill {
-    flex: 1 1 140px;
+    width: 100%;
     justify-content: space-between;
-    gap: 10px;
-    padding-left: 18px;
-    font-size: 15px;
+    gap: 12px;
+    /* The icon defines the pill's height, so the vertical padding around it is
+     * what makes the tap target taller (icon 42 + 2×6 + borders ≈ 56px). */
+    padding: 6px 6px 6px 24px;
+    font-size: 16px;
   }
   .hero-pill__icon {
-    width: 36px;
-    height: 36px;
+    width: 42px;
+    height: 42px;
   }
 }
 
@@ -844,6 +847,66 @@
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     box-shadow: none;
+  }
+}
+
+/* =========================================================================
+ * Mobile navbar — kill the scroll "jump" over the hero.
+ *
+ * main.js adds `.scrolled` to the navbar once scrollTop passes 150px, and the
+ * template (style.css) answers with `position: fixed`. On desktop that costs
+ * nothing: the bar is ALREADY `position: absolute`, i.e. out of the flow. On
+ * phones it is `position: relative` — in the flow, above the hero — so going
+ * fixed rips its ~60px box out of the flow, the hero and the whole page below
+ * snap upward by that much, and scrolling back under 150px snaps them down
+ * again. That is the jump, and it is why it only shows on mobile.
+ *
+ * `sticky` pins the bar to the top exactly like `fixed` does, but keeps its box
+ * in the flow, so nothing below it ever shifts. The template's `margin-top:
+ * -130px` (the sleep/awake hide-then-reveal) would reintroduce the same shift,
+ * so it is zeroed — a bar that never leaves the top has nothing to reveal.
+ *
+ * The `#ftco-navbar` id makes these win over style.css's `.ftco-navbar-light
+ * .scrolled` regardless of which stylesheet the browser loads last.
+ * ========================================================================= */
+@media (max-width: 991.98px) {
+  #ftco-navbar.ftco-navbar-light,
+  #ftco-navbar.ftco-navbar-light.scrolled {
+    position: sticky;
+    top: 0;
+    margin-top: 0;
+  }
+}
+
+/* Now that the bar is pinned rather than hidden, `.scrolled` flips it black →
+ * white in full view, and the template ships no transition for that — so it
+ * read as a hard snap at the 150px mark. Ease every property that class
+ * repaints (bar, links, brand, burger) over the same duration so the whole bar
+ * cross-fades as one. The logo's own black/white ink swap is already a 0.25s
+ * opacity fade (see the Brand lockup section), which this sits comfortably with.
+ *
+ * These fire on desktop too, where the bar goes transparent → white; that
+ * transition was just as abrupt, so it is deliberately not scoped to mobile. */
+/* `margin-top` stays in the list because this rule outranks the template's
+ * `.scrolled.awake { transition: .3s all ease-out }` — that is what slides the
+ * DESKTOP bar down from its -130px hiding spot, and dropping it would make the
+ * bar pop in. It is inert on mobile, where the margin is pinned to 0 above. */
+#ftco-navbar.ftco-navbar-light {
+  transition: background-color 0.35s ease, box-shadow 0.35s ease,
+    margin-top 0.3s ease-out;
+}
+#ftco-navbar.ftco-navbar-light .navbar-nav > .nav-item > .nav-link,
+#ftco-navbar.ftco-navbar-light .navbar-brand,
+#ftco-navbar.ftco-navbar-light .navbar-toggler {
+  transition: color 0.35s ease, text-shadow 0.35s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #ftco-navbar.ftco-navbar-light,
+  #ftco-navbar.ftco-navbar-light .navbar-nav > .nav-item > .nav-link,
+  #ftco-navbar.ftco-navbar-light .navbar-brand,
+  #ftco-navbar.ftco-navbar-light .navbar-toggler {
+    transition: none;
   }
 }
 
