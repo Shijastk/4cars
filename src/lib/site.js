@@ -9,10 +9,10 @@ export const SITE = {
   tagline: 'Premium Car Rental in Dubai & across the UAE',
   established: 2014,           // "10+ years on the road" is derived from this
 
-  phone: '0544019068',
+  phone: '+971 52 529 5379',
   phoneHref: 'tel:+971551981194',
   email: 'info@regeldrive.com',
-  address: 'Street No. 13B, Dubai, United Arab Emirates',
+  address: 'Block A ,Al Husn Complex-Sharjah',
   city: 'Dubai',
   country: 'United Arab Emirates',
   hours: 'Open 24 / 7, every day of the year',
