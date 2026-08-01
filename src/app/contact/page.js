@@ -4,7 +4,13 @@ import PickupLocator from '@/components/sections/PickupLocator';
 import ContactForm from '@/components/sections/ContactForm';
 import { SITE } from '@/lib/site';
 
-export const metadata = { title: `Contact – ${SITE.brand} Dubai` };
+export const metadata = {
+  title: `Contact Us | Car Rental Dubai – ${SITE.brand}`,
+  description: `Contact ${SITE.brand} for car rental enquiries in Dubai & UAE. Call, email or message us — we respond within the hour. Pickup locations across Dubai, Abu Dhabi & Sharjah.`,
+  keywords: ['contact car rental Dubai', 'car hire enquiry UAE', 'Dubai car rental phone', 'car rental Sharjah contact'],
+  alternates: { canonical: `https://${SITE.domain}/contact` },
+  openGraph: { title: `Contact ${SITE.brand} | Car Rental Dubai`, description: 'Get in touch for car rental enquiries. We respond within the hour.', url: `https://${SITE.domain}/contact` },
+};
 
 const contactInfo = [
   { icon: 'icon-map-o', label: 'Address', value: SITE.address },

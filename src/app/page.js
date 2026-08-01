@@ -11,7 +11,13 @@ import Loader from '@/components/ui/Loader';
 import { CARS } from '@/lib/cars';
 import { SITE } from '@/lib/site';
 
-export const metadata = { title: `${SITE.brand} – Car Rental in Dubai & across the UAE` };
+export const metadata = {
+  title: 'Car Rental Dubai & UAE | Economy, SUV & Luxury Cars',
+  description: 'Rent a car in Dubai, Abu Dhabi or Sharjah from AED 89/day. Economy, SUV and luxury fleet with transparent all-in pricing, airport pickup and 24/7 support.',
+  keywords: ['car rental Dubai', 'rent a car Dubai', 'cheap car hire Dubai', 'luxury car rental UAE', 'SUV rental Dubai', 'airport car rental DXB'],
+  alternates: { canonical: `https://${SITE.domain}` },
+  openGraph: { title: 'Car Rental Dubai & UAE | Economy, SUV & Luxury Cars', description: 'Rent a car in Dubai from AED 89/day. Transparent pricing, airport pickup, 24/7 support.', url: `https://${SITE.domain}` },
+};
 
 // Trip-type gateways into the fleet. Images are placeholders drawn from the
 // existing fleet gallery — swap `image` for dedicated lifestyle shots when

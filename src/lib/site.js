@@ -30,7 +30,7 @@ export const SITE = {
 export const BRAND_HEAD = SITE.brand.slice(0, SITE.brand.length - SITE.brandTail.length);
 
 // How many completed years of operation (kept as a live figure, min 10+).
-export function yearsOfExperience(currentYear = 2026) {
+export function yearsOfExperience(currentYear = new Date().getFullYear()) {
   return Math.max(10, currentYear - SITE.established);
 }
 

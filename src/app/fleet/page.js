@@ -4,7 +4,13 @@ import FleetExplorer from '@/components/sections/FleetExplorer';
 import Loader from '@/components/ui/Loader';
 import { SITE } from '@/lib/site';
 
-export const metadata = { title: `Our Fleet – ${SITE.brand} Dubai` };
+export const metadata = {
+  title: `Our Car Fleet | Rent Economy, SUV & Luxury Cars in Dubai – ${SITE.brand}`,
+  description: 'Browse our full fleet of economy, SUV, and luxury rental cars in Dubai & UAE. Filter by type, brand and budget. Transparent all-in pricing with no hidden fees.',
+  keywords: ['car fleet Dubai', 'rent SUV Dubai', 'luxury car hire UAE', 'economy car rental Dubai', 'BMW rental Dubai', 'Mercedes rental UAE', 'Audi hire Dubai'],
+  alternates: { canonical: `https://${SITE.domain}/fleet` },
+  openGraph: { title: 'Our Car Fleet | Economy, SUV & Luxury Rentals in Dubai', description: 'Browse economy, SUV and luxury cars. Transparent pricing, no hidden fees.', url: `https://${SITE.domain}/fleet` },
+};
 
 export default function Fleet() {
   return (

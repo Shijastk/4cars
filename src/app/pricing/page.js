@@ -5,7 +5,13 @@ import EnquireButton from '@/components/sections/EnquireButton';
 import { CARS } from '@/lib/cars';
 import { SITE } from '@/lib/site';
 
-export const metadata = { title: `Pricing – ${SITE.brand} Dubai` };
+export const metadata = {
+  title: `Car Rental Prices Dubai | Hourly, Daily & Monthly Rates – ${SITE.brand}`,
+  description: 'View transparent car rental rates in Dubai. Hourly, daily and monthly pricing for economy, SUV and luxury cars. All-in rates with no hidden fees.',
+  keywords: ['car rental prices Dubai', 'daily car hire rates UAE', 'monthly car rental Dubai', 'hourly car rental Dubai', 'cheap car rental rates UAE', 'car leasing Dubai'],
+  alternates: { canonical: `https://${SITE.domain}/pricing` },
+  openGraph: { title: 'Car Rental Prices Dubai | Hourly, Daily & Monthly', description: 'Transparent hourly, daily and monthly car rental rates in Dubai. No hidden fees.', url: `https://${SITE.domain}/pricing` },
+};
 
 // Rates derived from each car's daily USD base — converted to the visitor's
 // currency at display time. Hourly ≈ 1/6 of daily; monthly includes a discount.

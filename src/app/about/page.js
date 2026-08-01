@@ -6,7 +6,13 @@ import Button from '@/components/ui/Button';
 import Loader from '@/components/ui/Loader';
 import { SITE } from '@/lib/site';
 
-export const metadata = { title: `About Us – ${SITE.brand} Dubai` };
+export const metadata = {
+  title: `About ${SITE.brand} | 10+ Years Car Rental in Dubai & UAE`,
+  description: `Learn about ${SITE.brand} — Dubai’s trusted car rental company since ${SITE.established}. 24/7 support, UAE-wide branches, transparent pricing and a fleet for every trip.`,
+  keywords: ['about RegelDrive', 'car rental company Dubai', 'trusted car hire UAE', 'Dubai car rental history'],
+  alternates: { canonical: `https://${SITE.domain}/about` },
+  openGraph: { title: `About ${SITE.brand} | Car Rental Dubai`, description: `Trusted Dubai car rental since ${SITE.established}. 24/7 support, UAE-wide branches.`, url: `https://${SITE.domain}/about` },
+};
 
 const services = [
   { icon: 'flaticon-placeholder', title: '24/7 Road Support', text: 'A flat tyre at midnight? Our support line is staffed around the clock, every day of the year.' },
